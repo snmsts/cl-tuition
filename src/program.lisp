@@ -200,6 +200,14 @@ Terminal modes are applied declaratively from the first view-state render."
         (let ((input-thread (bt:make-thread
                              (lambda () (input-loop program))
                              :name "tuition-input")))
+          ;; Send initial window size and update renderer dimensions
+          (let* ((size (get-terminal-size))
+                 (width (car size))
+                 (height (cdr size)))
+            (setf (renderer-width (program-renderer program)) width
+                  (renderer-height (program-renderer program)) height)
+            (send program (make-window-size-msg :width width :height height)))
+
           (let ((init-cmd (init (program-model program))))
             (when init-cmd
               (run-command program init-cmd)))
