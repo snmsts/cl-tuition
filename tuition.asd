@@ -10,7 +10,8 @@
                "version-string"
                "alexandria"
                "serapeum"
-               "cl-base64")
+               "cl-base64"
+               (:feature :win32 "cffi"))
   :serial t
   :components ((:module "src"
                 :components ((:file "package")
